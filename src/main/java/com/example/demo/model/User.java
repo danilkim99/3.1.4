@@ -29,6 +29,12 @@ public class User implements UserDetails {
     @Column(name ="password")
     private String password;
 
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name ="email")
+    private String email;
+
     @ManyToMany
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
