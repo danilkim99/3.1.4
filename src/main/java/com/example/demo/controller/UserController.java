@@ -25,11 +25,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
     @GetMapping("/user")
     public String userInfo(Model model, Principal principal) {
         User user = userService.findByUsername(principal.getName());
@@ -37,42 +32,53 @@ public class UserController {
         return "user-info";
     }
 
-    @GetMapping("/admin/{id}")
-    public String userById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
-        return "user-info";
-    }
-
-
     @GetMapping("/admin")
-    public String findAll(Model model){
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "user-list";
-    }
-
-    @GetMapping("/admin/user-create")
-    public String createUserForm(User user) {
-        return "user-create";
+    public String findAll(Model model, Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("users", userService.findAll());
+        return "admin-panel";
     }
 
     @PostMapping("/admin/user-create")
-    public String createUserForm(User user, @RequestParam(value = "role") String[] roles) {
+    public String createUser(User user, @RequestParam(value = "role") String[] roles){
         user.setRoles(userService.getRoles(roles));
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/delete-user/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    @GetMapping("/admin/{id}")
+    public String userById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.findById(id));
+        return "user-info";
+    }
+
+    @GetMapping("/admin-info")
+    public String adminInfo(Model model, Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "admin-info";
+    }
+
+    @GetMapping("/admin/user-deleteconfirm/{id}")
+    public String deleteUser(@PathVariable("id") Long id){
         userService.deleteById(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/user-delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id, Model model){
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("users", userService.findAll());
+        return "user-delete";
     }
 
     @GetMapping("/admin/user-update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
+        model.addAttribute("users", userService.findAll());
         return "/user-update";
     }
 

@@ -42,19 +42,19 @@
             </div>
 
             <label for="username">Username</label>
-            <input type="text" class="form-control" th:field="*{username}" id="username" placeholder="Username">
+            <input readonly type="text" class="form-control" th:field="*{username}" id="username" placeholder="Username">
 
             <label for="surname">Surname</label>
-            <input type="text" class="form-control" th:field="*{surname}" id="surname" placeholder="Surname">
+            <input readonly type="text" class="form-control" th:field="*{surname}" id="surname" placeholder="Surname">
 
             <label for="age">Age</label>
-            <input type="number" class="form-control" th:field="*{age}" id="age" placeholder="Age">
+            <input readonly type="number" class="form-control" th:field="*{age}" id="age" placeholder="Age">
 
             <label for="email">Email</label>
-            <input type="email"  class="form-control" th:field="*{email}" id="email" placeholder="Email">
+            <input readonly type="email"  class="form-control" th:field="*{email}" id="email" placeholder="Email">
 
             <label for="password">Password</label>
-            <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Password">
+            <input readonly type="password" class="form-control" th:field="*{password}" id="password" placeholder="Password">
 
             <label>
               <select size="3" name="role" id="roles" multiple="multiple">
@@ -65,7 +65,7 @@
             </label>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <input type="submit" class="btn btn-primary" value="Edit">
+              <a class="btn btn-danger delBtn" th:href="@{/admin/user-deleteconfirm/{id}(id=${user.id})}">Delete</a>
             </div>
           </form>
 
@@ -174,7 +174,7 @@
             </div>
 
             <div class="tab-pane fade" id="create" role="tabpanel">
-              <form action="#" th:action="@{/admin/user-create}" th:object="${user}" method="post">
+              <form action="#" th:action="@{/admin/user-delete}" th:object="${user}" method="post">
 
                 <div class="form-group">
                   <label class="col-form-label" for="username">First Name:</label>
